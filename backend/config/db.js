@@ -1,8 +1,17 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-export const connectDB = async (params) => {
-    await mongoose.connect('mongodb+srv://asbharti27:Mp1Octd8ODCWeD1M@cluster0.eizabwl.mongodb.net/Zume')
-    .then(() => {
-        console.log("database connected")
-    })
-}
+dotenv.config(); // Load .env variables
+
+export const connectDB = async () => {
+    try {
+        await mongoose.connect(process.env.MONGODB_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        console.log(' MongoDB connected');
+    } catch (err) {
+        console.error(' MongoDB connection error:', err.message);
+        process.exit(1); // Exit process if connection fails
+    }
+};
