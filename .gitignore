@@ -1,0 +1,21 @@
+# === FRONTEND (Vite) ===
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.*.local
+
+# === BACKEND (Node.js / Express) ===
+backend/node_modules/
+backend/.env
+backend/.env.*.local
+
+# === COMMON FILES ===
+.env
+*.log
+*.env.local
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Optional: Editor/project files
+.id
