@@ -156,6 +156,9 @@ export const deleteResume = async (req,res) => {
             })
         }
 
+        console.log(`Deleting resume ${req.params.id} for user ${req.user._id}`);
+
+
         //CREATE AN UPLOADS FOLDER AND STORE THE RESUME THERE
         const uploadsFolder = path.join(process.cwd(), 'uploads')
 
