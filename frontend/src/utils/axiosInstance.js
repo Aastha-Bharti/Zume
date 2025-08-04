@@ -3,7 +3,7 @@ import { BASE_URL } from './apiPaths'
 
 const axiosInstance = axios.create( {
     baseURL : BASE_URL,
-    timeout: 1000,
+    timeout: 15000,
     headers: {
         'Content-Type' : 'application/json',
         Accept : 'application/json'
@@ -37,7 +37,7 @@ axiosInstance.interceptors.response.use(
         }else if (error.response.status === 500){
             console.error("Server error")
         }
-    }else if (error.code = 'ECONNABORTED'){
+    }else if (error.code === 'ECONNABORTED'){
             console.error("Request Timeout")
         }
 
