@@ -29,7 +29,7 @@ const UserProvider = ({children}) => {
           clearUser()
         }
         finally {
-          setLoading(fasle)
+          setLoading(false)
         }
       }
       fetchUser()
