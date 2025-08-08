@@ -97,7 +97,7 @@ const Dashboard = () => {
   const fetchAllResumes = async () => {
     try {
       setLoading(true)
-      const response = await axiosInstance.delete(API_PATHS.RESUME.GET_ALL)
+      const response = await axiosInstance.get(API_PATHS.RESUME.GET_ALL)
 
       //  ADD COMPLETION % TO EACH RESUME
       const resumeWithCompletion = response.data.map(resume => ({
@@ -124,7 +124,7 @@ const Dashboard = () => {
     if(!resumeToDelete) return
 
     try {
-      await axiosInstance.get(API_PATHS.RESUME.DELETE(resumeToDelete))
+      await axiosInstance.delete(API_PATHS.RESUME.DELETE(resumeToDelete))
       toast.success("Resume deleted successfully")
       fetchAllResumes()
     } catch (error) {
@@ -135,7 +135,17 @@ const Dashboard = () => {
       setResumeToDelete(null)
       setShowDeleteConfirm(false)
     }
-  }
+  }git add frontend/package-lock.json \
+frontend/package.json \
+frontend/src/assets/dummystyle.js \
+frontend/src/components/Cards.jsx \
+frontend/src/components/EditResume.jsx \
+frontend/src/pages/Dashboard.jsxgit add frontend/package-lock.json \
+frontend/package.json \
+frontend/src/assets/dummystyle.js \
+frontend/src/components/Cards.jsx \
+frontend/src/components/EditResume.jsx \
+frontend/src/pages/Dashboard.jsx
 
   const handleDeleteClick = (id) => {
       setResumeToDelete(id)

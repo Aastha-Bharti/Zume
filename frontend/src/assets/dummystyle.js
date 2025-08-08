@@ -165,9 +165,9 @@ export const dashboardStyles = {
 
 export const cardStyles = {
   // ProfileInfoCard styles
-  profileCard: "flex items-center gap-3 p-2 sm:p-3 bg-white backdrop-blur-xl border border-gray-200 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.03]",
-  profileInitialsContainer: "w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-2xl flex items-center justify-center shadow-md",
-  profileInitialsText: "text-base sm:text-lg font-black text-white",
+  profileCard: "flex items-center gap-3 p-1 sm:p-2 bg-white backdrop-blur-xl border border-gray-200 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.03]",
+  profileInitialsContainer: "w-10 h-10 sm:w-10 sm:h-10 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-full flex items-center justify-center shadow-md",
+  profileInitialsText: "text-sm sm:text-base font-black text-white",
   profileName: "text-xs sm:text-sm font-bold text-gray-800",
   logoutButton: "text-violet-600 text-[10px] sm:text-xs font-bold cursor-pointer hover:text-fuchsia-600 transition-colors",
 

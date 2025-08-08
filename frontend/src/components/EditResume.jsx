@@ -1,14 +1,19 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import DashboardLayout from './DashboardLayout'
-import { containerStyles, buttonStyles } from '../assets/dummystyle'
+import { containerStyles, buttonStyles, statusStyles, iconStyles } from '../assets/dummystyle'
 import { TitleInput } from './Inputs'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Download, Palette, Trash2 } from 'lucide-react'
-import axiosInstance from '../utils/axiosInstance'
+import { AlertCircle, ArrowLeft, Check, Download, Loader2, Palette, Save, Trash2 } from 'lucide-react'
+import axiosInstance from '../utils/axiosInstance.js'
 import { API_PATHS } from '../utils/apiPaths'
 import toast from 'react-hot-toast'
 import { fixTailwindColors } from '../utils/colors'
 import html2pdf from 'html2pdf.js'
+import StepProgress from './StepProgress'
+import RenderResume from './RenderResume.jsx'
+import Modal from './Modal.jsx'
+import ThemeSelector from './ThemeSelector.jsx'
+import { AdditionalInfoForm, CertificationInfoForm, ContactInfoForm, EducationDetailsForm, ProfileInfoForm, ProjectDetailForm, SkillsInfoForm, WorkExperienceForm } from './Forms'
 
 //RESIZE OBSERVER TO RESIZE PAGE TO A4
 const useResizeObserver = () => {
@@ -540,7 +545,9 @@ const EditResume = () => {
   }
 
   //DELETE FUNCTION  
-   const handleDeleteResume = async () => {
+   const handleDeleteResume = async (resumeId) => {
+
+    console.log("delete clcked ")
     try {
       setIsLoading(true)
       await axiosInstance.delete(API_PATHS.RESUME.DELETE(resumeId))
@@ -553,6 +560,101 @@ const EditResume = () => {
       setIsLoading(false)
     }
   }
+
+  //UPDATE RESUME 
+   const updateResumeDetails = async (thumbnailLink) => {
+    try {
+      setIsLoading(true)
+
+      await axiosInstance.put(API_PATHS.RESUME.UPDATE(resumeId), {
+        ...resumeData,
+        thumbnailLink: thumbnailLink || "",
+        completion: completionPercentage,
+      })
+    } catch (err) {
+      console.error("Error updating resume:", err)
+      toast.error("Failed to update resume details")
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+   const downloadPDF = async () => {
+    const element = resumeDownloadRef.current;
+    if (!element) {
+      toast.error("Failed to generate PDF. Please try again.");
+      return;
+    }
+  
+    setIsDownloading(true);
+    setDownloadSuccess(false);
+    const toastId = toast.loading("Generating PDFâ€¦");
+  
+    const override = document.createElement("style");
+    override.id = "__pdf_color_override__";
+    override.textContent = `
+      * {
+        color: #000 !important;
+        background-color: #fff !important;
+        border-color: #000 !important;
+      }
+    `;
+    document.head.appendChild(override);
+  
+    try {
+      await html2pdf()
+        .set({
+          margin:       0,
+          filename:     `${resumeData.title.replace(/[^a-z0-9]/gi, "_")}.pdf`,
+          image:        { type: "png", quality: 1.0 },
+          html2canvas:  {
+            scale:           2,
+            useCORS:         true,
+            backgroundColor: "#FFFFFF",
+            logging:         false,
+            windowWidth:     element.scrollWidth,
+          },
+          jsPDF:        {
+            unit:       "mm",
+            format:     "a4",
+            orientation:"portrait",
+          },
+          pagebreak: {
+            mode: ['avoid-all', 'css', 'legacy']
+          }
+        })
+        .from(element)
+        .save();
+  
+      toast.success("PDF downloaded successfully!", { id: toastId });
+      setDownloadSuccess(true);
+      setTimeout(() => setDownloadSuccess(false), 3000);
+  
+    } catch (err) {
+      console.error("PDF error:", err);
+      toast.error(`Failed to generate PDF: ${err.message}`, { id: toastId });
+  
+    } finally {
+      document.getElementById("__pdf_color_override__")?.remove();
+      setIsDownloading(false);
+    }
+  };
+
+  const updateTheme = (theme) => {
+    setResumeData(prev => ({
+      ...prev,
+      template: {
+        theme: theme,
+        colorPalette: []
+      }
+    }));
+  }
+
+  useEffect(() => {
+    if (resumeId) {
+      fetchResumeDetailsById()
+    }
+  }, [resumeId])
 
   return (
     <DashboardLayout >
@@ -570,7 +672,7 @@ const EditResume = () => {
                   <span className='text-sm'>Theme </span>
                 </button>
 
-                <button onClick={handleDeleteResume} className={buttonStyles.delete} disabled={isLoading}>
+                <button onClick={() => handleDeleteResume(resumeId)} className={buttonStyles.delete} disabled={isLoading}>
                   <Trash2 size={16}/>
                   <span className='text-sm'>Delete</span>
                 </button>
@@ -583,6 +685,119 @@ const EditResume = () => {
             </div>
 
             {/* STEP PROGRESS */}
+            <div className={containerStyles.grid}>
+              <div className={containerStyles.formContainer}>
+                <StepProgress progress={progress}/>
+                {renderForm()}
+                <div className='p-4 sm:p-6'>
+                  {errorMsg && (
+                    <div className={statusStyles.error}>
+                        <AlertCircle size={16}/>
+                        {errorMsg}
+                    </div>
+                  )}
+
+                  <div className='flex flex-wrap items-center justify-end gap-3 '>
+                    <button className={buttonStyles.back} onClick={goBack} disabled={isLoading}>
+                      <ArrowLeft size={16}/> Back
+                    </button>
+
+                    <button className={buttonStyles.save} onClick={uploadResumeImages} disabled={isLoading}>
+                      {isLoading ? <Loader2 size={16} className='animate-spin'/> 
+                      : <Save size={16}/> }
+                      {isLoading ? "Saving..." : "Save and Exit"}
+                    </button>
+
+                    <button className={buttonStyles.next} onClick={validateAndNext} disabled={isLoading}>
+                      {currentPage === "additionalInfo" && <Download size={16}/>}
+                      {currentPage === "additionalInfo" ? "Preview & Download" : "Next"}
+                      {currentPage === "additionalInfo" && <ArrowLeft size={16} className='rotate-180'/> }
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className='hidden lg:block'>
+                <div className={containerStyles.previewContainer}>
+                  <div className='text-center mb-4 '>
+                    <div className={statusStyles.completionBadge}>
+                      <div className={iconStyles.pulseDot}></div>
+                      <span>Preview -{completionPercentage}%</span>
+                    </div>
+                  </div>
+
+                  <div className='preview-container relative' ref={previewContainerRef}>
+                    <div className={containerStyles.previewInner}>
+                      <RenderResume key={`preview - ${resumeData?.template?.theme}`}
+                      templateId={resumeData?.template?.theme || ""}
+                      resumeData={resumeData}
+                      containerWidth={previewWidth}/>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        {/* MODAL DATA HERE */}
+        <Modal isOpen={openThemeSelector} onClose={() => setOpenThemeSelector(false)} title="Change Title">
+          <div className={containerStyles.modalContent}>
+                <ThemeSelector selectedTheme={resumeData?.template.theme}
+                setSelectedTheme={updateTheme} onClose={() =>setOpenThemeSelector(false)}/>
+          </div>
+        </Modal>
+
+        <Modal isOpen={openPreviewModal} onClose={() => setOpenPreviewModal(false)}
+          title={resumeData.title}
+          showActionBtn
+          actionBtnText={isDownloading ? "Generating..." 
+            : downloadSuccess ? "Downloaded!" : "Download PDF"
+          }
+          
+          actionBtnIcon={
+            isDownloading ? (
+              <Loader2 size={16} className='animate-spin' />
+            ) : 
+              downloadSuccess ? (
+                <Check size={16} className='text-white'/>
+              ) : (
+                <Download size={16}/>
+              )
+            }
+            onActionClick={downloadPDF}>
+              <div className='relative'>
+                <div className='text-center mb-4'>
+                  <div className={statusStyles.modalBadge}>
+                    <div className={iconStyles.pulseDot}> </div>
+                      <span>Completion : {completionPercentage}%</span>
+                 
+                 </div>
+                </div>
+
+                <div className={containerStyles.pdfPreview}>
+                  <div ref={resumeDownloadRef} className='a4-wrapper'>
+                    <div className='w-full h-full'>
+                      <RenderResume key={`pdf-${resumeData?.template?.theme}`}
+                      templateId={resumeData?.template?.theme || ''}
+                      resumeData={resumeData}
+                      containerWidth={null}/>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+        </Modal>
+
+        {/* THUMBNAIL ISSUE FIX */}
+        <div style={ { display: 'none'}} ref={thumbnailRef}>
+          <div className={containerStyles.hiddenThumbnail}>
+            <RenderResume key={`thumb-${resumeData?.template?.theme}`}
+            templateId={resumeData?.template?.theme || ''}
+            resumeData={resumeData}
+            />
+          </div>
         </div>
     </DashboardLayout>
   )
