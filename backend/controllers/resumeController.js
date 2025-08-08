@@ -178,8 +178,8 @@ export const deleteResume = async (req,res) => {
         }
 
         //DELETE THE RESUME DOC
-        const deleted = await Resume.findOne({ _id: req.params.id, userId: req.user._id})
-        if(!deleted){
+        const deleted = await Resume.deleteOne({ _id: req.params.id, userId: req.user._id})
+        if(deleted.deletedCount === 0){
             return res.status(404).json({
                 message: "Resume not found or not authorized"
             })
@@ -190,7 +190,7 @@ export const deleteResume = async (req,res) => {
         
     } catch (error) {
         res.status(500).json({
-            message: "Faile to deleted resume",
+            message: "Failed to deleted resume",
             error: error.message
         })
     }
