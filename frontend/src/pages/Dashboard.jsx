@@ -135,17 +135,7 @@ const Dashboard = () => {
       setResumeToDelete(null)
       setShowDeleteConfirm(false)
     }
-  }git add frontend/package-lock.json \
-frontend/package.json \
-frontend/src/assets/dummystyle.js \
-frontend/src/components/Cards.jsx \
-frontend/src/components/EditResume.jsx \
-frontend/src/pages/Dashboard.jsxgit add frontend/package-lock.json \
-frontend/package.json \
-frontend/src/assets/dummystyle.js \
-frontend/src/components/Cards.jsx \
-frontend/src/components/EditResume.jsx \
-frontend/src/pages/Dashboard.jsx
+  }
 
   const handleDeleteClick = (id) => {
       setResumeToDelete(id)
