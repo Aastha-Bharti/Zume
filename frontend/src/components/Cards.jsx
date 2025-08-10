@@ -21,7 +21,7 @@ export const ProfileInfoCard = () => {
       //REDIRECT TO LANDING PAGE 
       <div className={cardStyles.profileCard}>
         <div className={cardStyles.profileInitialsContainer}>
-          <span className={cardStyles.profileInitialsText +"border border-amber-700"}>
+          <span className={cardStyles.profileInitialsText }>
               { user.name ? user.name.charAt(0).toUpperCase() : "" }
           </span>
         </div>

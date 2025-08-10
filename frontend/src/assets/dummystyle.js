@@ -19,8 +19,6 @@ export const landingPageStyles = {
   mobileAuthButton: "w-full px-6 py-3 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-bold rounded-2xl",
 
   // Mobile menu
-  // Mobile menu
-  // Mobile menu
   mobileMenu: "md:hidden bg-white/95 backdrop-blur-lg w-full fixed top-16 left-0 right-0 z-40 shadow-lg border-b border-violet-100/50 transition-all duration-300 ease-in-out",
   mobileMenuContainer: "max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-col gap-4",
   mobileUserInfo: "flex flex-col gap-4 py-2",
@@ -33,13 +31,13 @@ export const landingPageStyles = {
   // Hero section
   heroSection: "max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20",
   heroGrid: "flex flex-wrap justify-between gap-10 lg:gap-12 items-center",
-  heroLeft: "space-y-8",
+  heroLeft: "space-y-3",
   tagline: "inline-flex items-center gap-2 sm:gap-3 px-4 py-2 bg-gradient-to-r from-violet-100 to-fuchsia-100 border border-violet-200 text-violet-700 rounded-full font-bold text-xs sm:text-sm",
-  heading: "text-4xl sm:text-6xl lg:text-8xl font-black leading-tight",
-  headingText: "block text-slate-900",
-  headingGradient: "block bg-gradient-to-r from-violet-600 via-fuchsia-600 to-orange-500 bg-clip-text text-transparent",
-  description: "text-base sm:text-lg lg:text-xl text-slate-600 leading-relaxed max-w-lg font-medium",
-  ctaButtons: "flex flex-col sm:flex-row gap-4",
+  heading: "text-3xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight",
+headingText: "block text-slate-800",
+headingGradient: "block bg-gradient-to-r from-violet-500 via-fuchsia-500 to-orange-400 bg-clip-text text-transparent drop-shadow-sm",
+  description: "text-base sm:text-sm lg:text-lg text-slate-600 leading-relaxed max-w-lg font-medium",
+  ctaButtons: "flex flex-col sm:flex-row gap-4 mt-2",
 
   // Buttons
   primaryButton: "group relative px-10 py-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 text-white font-bold rounded-2xl overflow-hidden transition-all hover:scale-105 hover:shadow-2xl hover:shadow-violet-200",
@@ -118,6 +116,8 @@ export const landingPageStyles = {
   footerLink: "hover:text-purple-400 underline"
 };
 
+
+
 export const dashboardStyles = {
   // Container
   container: "container mx-auto px-4 py-6",
@@ -164,12 +164,11 @@ export const dashboardStyles = {
 
 
 export const cardStyles = {
-  // ProfileInfoCard styles
-  profileCard: "flex items-center gap-3 p-1 sm:p-2 bg-white backdrop-blur-xl border border-gray-200 rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 hover:scale-[1.03]",
-  profileInitialsContainer: "w-10 h-10 sm:w-10 sm:h-10 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-full flex items-center justify-center shadow-md",
-  profileInitialsText: "text-sm sm:text-base font-black text-white",
-  profileName: "text-xs sm:text-sm font-bold text-gray-800",
-  logoutButton: "text-violet-600 text-[10px] sm:text-xs font-bold cursor-pointer hover:text-fuchsia-600 transition-colors",
+  profileCard: " flex items-center gap-3 px-3 h-14 bg-white backdrop-blur-xl border border-gray-200 rounded-xl shadow-md hover:shadow-lg transition-transform duration-300 hover:scale-105",
+profileInitialsContainer: "w-8 h-8 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-full flex items-center justify-center shadow-md",
+profileInitialsText: "text-sm font-black text-white",
+profileName: "text-sm font-semibold text-gray-800 truncate max-w-[120px]",
+logoutButton: "text-violet-600 text-[12px] font-semibold sm:text-xs cursor-pointer hover:text-fuchsia-600 transition-colors",
 
   // ResumeSummaryCard styles
   resumeCard: "group relative h-[360px] sm:h-[380px] lg:h-[400px] flex flex-col bg-white border border-gray-200 rounded-3xl overflow-hidden cursor-pointer transition-all duration-500 hover:scale-[1.02] hover:shadow-xl hover:border-violet-300",
@@ -239,7 +238,7 @@ export const authStyles = {
   signupContainer: "w-[90vw] md:w-[400px] p-8 bg-gradient-to-br from-white to-rose-50 rounded-3xl border border-rose-100 shadow-2xl overflow-hidden",
   signupTitle: "text-2xl font-black text-slate-900 mb-2",
   signupSubtitle: "text-slate-600 font-medium",
-  signupForm: "space-y-4",
+  signupForm: "space-y-3",
   signupSubmit: "w-full py-4 bg-gradient-to-r from-rose-500 to-pink-600 text-white font-black rounded-2xl hover:scale-105 hover:shadow-xl hover:shadow-rose-200 transition-all text-lg",
   signupSwitchButton: "font-black text-rose-600 hover:text-pink-600 transition-colors"
 };

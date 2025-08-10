@@ -6,6 +6,7 @@ import { validateEmail } from '../utils/helper.js';
 import axiosInstance from '../utils/axiosInstance.js';
 import { API_PATHS } from '../utils/apiPaths.js';
 import { Inputs as Input } from './Inputs.jsx';
+import { toast } from 'react-hot-toast';
 
 const SignUp = ({ setCurrentPage }) => {
 
@@ -46,6 +47,7 @@ const SignUp = ({ setCurrentPage }) => {
       if(token) {
         localStorage.setItem('token', token)
         updateUser(response.data)
+        toast.success("Signup successful! Welcome aboard.") 
         navigate('/dashboard')
       }
 
@@ -60,15 +62,15 @@ const SignUp = ({ setCurrentPage }) => {
   return (
     <div className={styles.signupContainer}>
       <div className={styles.headerWrapper}>
-        <h3 className={styles.signupTitle}>Create Account</h3>
-        <p className={styles.signupSubtitle}>Join thousands of professionals today</p>
+        <h3 className={`${styles.signupTitle} mb-0`}>Create Account</h3>
+        <p className={`${styles.signupSubtitle} mt-0`}>Join thousands of professionals today</p>
 
         {/* FORM */}
         <form onSubmit={handleSignUp} className={styles.signupForm}>
           <Input 
           value={fullName}
           onChange = {({ target }) => setFullName(target.value)}
-          label = "Full Name"
+          label = "Full Name "
           placeholder = 'Example Name'
           type="text"
           />
@@ -106,4 +108,3 @@ const SignUp = ({ setCurrentPage }) => {
 }
 
 export default SignUp
-

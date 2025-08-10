@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { landingPageStyles } from "../assets/dummystyle";
-import { ArrowRight, Download, KanbanSquareDashed, LayoutTemplate, Menu, X, Zap } from "lucide-react";
+import { ArrowRight, Download, FileUser, KanbanSquareDashed, LayoutTemplate, Menu, X, Zap } from "lucide-react";
 import { UserContext } from "../context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { ProfileInfoCard } from "../components/Cards";
@@ -59,7 +59,7 @@ const featureGrid = [
         <div className={landingPageStyles.headerContainer}>
           <div className={landingPageStyles.logoContainer}>
             <div className={landingPageStyles.logoIcon}>
-              <LayoutTemplate className={landingPageStyles.logoIconInner} />
+              <FileUser className={landingPageStyles.logoIconInner} />
             </div>
             <span className={landingPageStyles.logoText}>ZUME</span>
           </div>
