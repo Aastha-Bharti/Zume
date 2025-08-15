@@ -24,25 +24,51 @@ axiosInstance.interceptors.request.use((config) => {
   }
 );
 
-//RESPONSE INTERCEPTOR
+// //RESPONSE INTERCEPTOR
 axiosInstance.interceptors.response.use(
   (response) => {
     return response;
   },
   (error) => {
-    // Handle errors globally
-    if (error.response ){
-        if(error.response.status === 401) {
-            window.location.href ='/'
-        }else if (error.response.status === 500){
-            console.error("Server error")
-        }
-    }else if (error.code === 'ECONNABORTED'){
-            console.error("Request Timeout")
-        }
+    if (error.response) {
+      const originalRequest = error.config;
 
-        return Promise.reject(error)
+      // Skip redirect if it's the login request
+      if (
+        error.response.status === 401 &&
+        !originalRequest.url.includes('/login')
+      ) {
+        window.location.href = '/';
+      } else if (error.response.status === 500) {
+        console.error("Server error");
+      }
+    } else if (error.code === 'ECONNABORTED') {
+      console.error("Request Timeout");
     }
+
+    return Promise.reject(error);
+  }
 );
+
+
+// axiosInstance.interceptors.response.use(
+//   (response) => {
+//     return response;
+//   },
+//   (error) => {
+//     // Handle errors globally
+//     if (error.response ){
+//         if(error.response.status === 401) {
+//             window.location.href ='/'
+//         }else if (error.response.status === 500){
+//             console.error("Server error")
+//         }
+//     }else if (error.code === 'ECONNABORTED'){
+//             console.error("Request Timeout")
+//         }
+
+//         return Promise.reject(error)
+//     }
+// );
 
 export default axiosInstance

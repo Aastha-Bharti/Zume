@@ -19,6 +19,7 @@ const Login = ({ setCurrentPage }) => {
 
   const handleLogin = async (e) => {
       e.preventDefault()
+      console.log("login clicked")
 
       if(!validateEmail(email)) {
         setError("Please enter a valid email address...")
@@ -31,6 +32,7 @@ const Login = ({ setCurrentPage }) => {
       }
 
       setError('')
+      localStorage.removeItem('token');
 
       try {
         const response = await axiosInstance.post(API_PATHS.AUTH.LOGIN , {
